@@ -1,17 +1,18 @@
 
-let mycheckbox;
+let sel;
 
 // get the height from the bitlen let H = 25; // 400 height divided by 8  400/8
 let W = 6; // 1536 divided by 256
 function setup() {
   createCanvas(1536, 400);
-  background(64);  // dont need this
+  background(64);  // don't need this
   noStroke()
-  checkbox = createCheckbox(' Unchecked N ; Checked N^2', false);
-  const box = checkbox.elt.getElementsByTagName('input')[0];  // get the dom stuff from dom lib
-  // https://discourse.processing.org/t/p5js-change-checkbox-size/1567
-  box.style.transform = 'scale(1.5)';
-  checkbox.changed(myCheckedEvent);
+  sel = createSelect();
+  sel.option('Natural Numbers: n');
+  sel.option('Squares: n^2');
+  sel.option('Triangular Numbers n*(n+1)/2')
+  
+  sel.changed(myCheckedEvent);
   drawN();
   
 }
@@ -19,21 +20,24 @@ function setup() {
 
 
 function myCheckedEvent() {
-  if (this.checked()) {
-    background(64);
-    drawNsqr();
-  } else {
+  if (sel.value() === 'Natural Numbers: n') {
     background(64);
     drawN();
+  } else if( sel.value()=== 'Squares: n^2') {
+    background(64);
+    drawNsqr();
+  }else{
+    background(64);
+    drawT();
   }
 }
 
 function drawN(){
   
   let x =0;
-  for (let i = 0; i < 256; i++) {          // lagrest 16 bit 65536
+  for (let i = 0; i < 256; i++) {          // 
     binSlice(x,i, 8);
-    x+=W; // move the x pos
+    x+=W; // move the x pos by width set global W
   }
   
   
@@ -44,8 +48,22 @@ function drawN(){
 function drawNsqr(){
   
   let x =0;
-  for (let i = 0; i < 256; i++) {          // lagrest 16 bit 65536
+  for (let i = 0; i < 256; i++) {          //  
     binSlice(x,i**2, 16);
+    x+=W; // move the x pos by width set global W
+  }
+  
+  
+  
+}
+
+
+function drawT(){
+  
+  let x =0;
+  for (let i = 0; i < 256; i++) {          //  
+    binSlice(x,i*(i+1)/2, 16);
+    print(i,i*(i+1)/2)
     x+=W; // move the x pos
   }
   
@@ -68,11 +86,12 @@ function binConvert(a, bitLen) {
 }
 
 function binSlice(x, Dnum, bitLen) {
+  // takes an x position, decimal number, and a bitLen of the largest number in the sequence
   let H = height/bitLen
   // takes in a x location on canvas and a decimal number
   // calls the convert function
   let binA = binConvert(Dnum, bitLen);
-  // only need an x because y is determined by list lenght and size
+  // only need an x because y is determined by list length and size
   let y = 0;
   for (const element of binA) {
     if (element == 0) {
