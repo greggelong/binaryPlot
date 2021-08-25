@@ -10,6 +10,7 @@ function setup() {
   sel = createSelect();
   sel.option('Natural Numbers: n');
   sel.option('Squares: n^2');
+  sel.option('Cubes: n^3');
   sel.option('Triangular Numbers n*(n+1)/2');
   sel.option('Sum of Collatz path');
   sel.option('Collatz path length');
@@ -37,13 +38,16 @@ function myCheckedEvent() {
   } else if( sel.value()=== 'Squares: n^2') {
     background(64);
     drawNsqr();
+  } else if(sel.value()=== 'Cubes: n^3'){
+    background(64);
+    drawNcubed();
   } else if(sel.value()=== 'Sum of Collatz path'){
     background(64);
     drawCsum();
   } else if(sel.value()=== 'Collatz path length'){
     background(64);
     drawClen();
-  }
+  } 
   else{
     background(64);
     drawT();
@@ -68,6 +72,20 @@ function drawNsqr(){
   let x =0;
   for (let i = 0; i < 256; i++) {          //  
     binSlice(x,i**2, 16);
+    x+=W; // move the x pos by width set global W
+  }
+  
+  
+  
+}
+
+
+function drawNcubed(){
+  
+  let x =0;
+  for (let i = 0; i < 256; i++) {          //  
+    binSlice(x,i**3, 24);
+    print(i,i**3);
     x+=W; // move the x pos by width set global W
   }
   
