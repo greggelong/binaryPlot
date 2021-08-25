@@ -93,7 +93,7 @@ function drawT(){
 function drawCsum(){
   
   let x =0;
-  for (let i = 0; i < 256; i++) {          //  
+  for (let i = 1; i < 256; i++) {          //  
     let a = collatzpath(i);
     let sum =0;
     for (let j =0; j<a.length;j++){
@@ -112,11 +112,11 @@ function drawCsum(){
 function drawClen(){
   
   let x =0;
-  for (let i = 0; i < 256; i++) {          //  
+  for (let i = 1; i < 256; i++) {          //  
     let a = collatzpath(i);
 
-    binSlice(x,a.length, 8);
-    print(i,a.length)
+    binSlice(x,a.length-1, 8);
+    print(i,a.length-1)
     x+=W; // move the x pos
   }
   
