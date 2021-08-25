@@ -138,7 +138,7 @@ function binConvert(a, bitLen) {
 
 function binSlice(x, Dnum, bitLen) {
   // takes an x position, decimal number, and a bitLen of the largest number in the sequence
-  let H = height/bitLen
+  let H = Math.floor(height/bitLen); // need to floor this for collatz path sum which has a bit length of 17
   // takes in a x location on canvas and a decimal number
   // calls the convert function
   let binA = binConvert(Dnum, bitLen);
