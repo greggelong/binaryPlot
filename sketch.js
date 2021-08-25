@@ -10,10 +10,21 @@ function setup() {
   sel = createSelect();
   sel.option('Natural Numbers: n');
   sel.option('Squares: n^2');
-  sel.option('Triangular Numbers n*(n+1)/2')
+  sel.option('Triangular Numbers n*(n+1)/2');
+  sel.option('Sum of Collatz path');
+  sel.option('Collatz path length');
   
   sel.changed(myCheckedEvent);
   drawN();
+  print(collatzpath(255));
+  let a = collatzpath(255);
+  let sum =0;
+  for (let i =0; i<a.length;i++){
+    sum+=a[i];
+
+  }
+  print(sum)
+
   
 }
 
@@ -26,7 +37,14 @@ function myCheckedEvent() {
   } else if( sel.value()=== 'Squares: n^2') {
     background(64);
     drawNsqr();
-  }else{
+  } else if(sel.value()=== 'Sum of Collatz path'){
+    background(64);
+    drawCsum();
+  } else if(sel.value()=== 'Collatz path length'){
+    background(64);
+    drawClen();
+  }
+  else{
     background(64);
     drawT();
   }
@@ -72,6 +90,39 @@ function drawT(){
 }
 
 
+function drawCsum(){
+  
+  let x =0;
+  for (let i = 0; i < 256; i++) {          //  
+    let a = collatzpath(i);
+    let sum =0;
+    for (let j =0; j<a.length;j++){
+      sum+=a[j];
+
+    }
+    print(i,sum)
+    binSlice(x,sum, 17); // all sums from 0 to 255 are < 2**17
+    //print(i,i*(i+1)/2)
+    x+=W; // move the x pos
+  }
+  
+}
+
+
+function drawClen(){
+  
+  let x =0;
+  for (let i = 0; i < 256; i++) {          //  
+    let a = collatzpath(i);
+
+    binSlice(x,a.length, 8);
+    print(i,a.length)
+    x+=W; // move the x pos
+  }
+  
+}
+
+
 function binConvert(a, bitLen) {
   // takes in a decimal and a bit length and returns a list of ones and zeros binary for that number
 
@@ -103,4 +154,24 @@ function binSlice(x, Dnum, bitLen) {
     }
     y += H;
   }
+}
+
+
+function collatzpath(num){
+  //returns a list of the collatz path from the number
+  //all the way to one.  in the game this is the map'''
+  
+  let path = [];
+  path.push(num)
+  while (num > 1){
+      if (num%2 == 0){
+          num = num/ 2
+          path.push(num)
+        }
+      else{
+          num = num*3+1
+          path.push(num)
+        }
+        }
+  return path
 }
